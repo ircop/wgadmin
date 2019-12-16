@@ -10,8 +10,7 @@ wg servers via simple http(s) api (or embed wgadmin/master or wgadmin/slave pack
 # Master daemon
 
 ```shell script
-cd wgmaster
-go build
+go install github.com/ircop/wgadmin/cmd/wgmaster
 ```
 
 Master daemon starts https server on given addr/port, and accepts slaves connections on '/wg' endpoint, as well as API calls.
@@ -24,7 +23,7 @@ Only simplest basic authorization allowed by setting LOGIN/PASSWORD env vars. Us
 ```shell script
 LOGIN=login PASSWORD=pw HOST=0.0.0.0 PORT=4321 \
     CERT=/path/to/ssl.crt KEY=/path/to/ssl.key \
-    ./master
+    $GOPATH/bin/wgmaster
 ```
 Possible env vars:
 
@@ -40,13 +39,13 @@ Slave daemon runs on each wireguard node, connects to master with given login/pa
 and accepts commands for add/remove/sync wireguard peers. 
 
 ```shell script
-cd wgslave
-go build
+go install github.com/ircop/wgadmin/cmd/wgslave
 
 SAVE_TEMPLATE=/etc/wireguard/template.conf SAVE_PATH=/etc/wireguard/clients.conf \
   LOGIN=t1 PASSWORD=t2 \
   REMOTE=127.0.0.1:4321/wg \
-  IFNAME=clients SKIPTLSVERIFY=true go run .
+  IFNAME=clients SKIPTLSVERIFY=true \
+  $GOPATH/bin/wgslave
 ```
 
 Configuration saving:
