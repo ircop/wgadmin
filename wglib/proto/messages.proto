@@ -1,0 +1,43 @@
+syntax = "proto3";
+package wgproto;
+
+import "google/protobuf/any.proto";
+
+enum PacketType {
+    PT_ERROR            = 0;
+    PT_RESULT           = 1;
+    PT_IFS_REQUEST      = 2;
+    PT_IFS_RESPONSE     = 3;
+    PT_SYNC_REQUEST     = 4;
+    PT_SYNC_RESPONSE    = 5;
+    PT_ADD_IF           = 6;
+    PT_REMOVE_IF        = 7;
+}
+
+message WGPacket {
+    PacketType  PacketType  = 1;
+    string      UUID        = 2;
+    string      Error       = 3;
+    google.protobuf.Any     Payload     = 4;
+}
+
+message Result {
+    bool    Success     = 1;
+    string  Error       = 2;
+}
+
+message Interface {
+    string  PubKey      = 1;
+    string  IP          = 2;
+}
+message Interfaces {
+    repeated Interface Interfaces   = 1;
+}
+
+message SyncResponse {
+    repeated Interface Interfaces   = 1;
+}
+
+message RemoveRequest {
+    repeated string Keys   = 1;
+}
