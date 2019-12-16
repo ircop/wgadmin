@@ -51,9 +51,9 @@ func NewSLave(ifname string, logger *zap.Logger) (*Slave, error) {
 	return daemon, nil
 }
 
-// Run slave daemon
+// Run wgslave daemon
 func (s *Slave) Run(config Config) error {
-	s.logger.Info("running slave daemon", zap.String("remote", config.RemoteAddr))
+	s.logger.Info("running wgslave daemon", zap.String("remote", config.RemoteAddr))
 
 	cfg := centrifuge.DefaultConfig()
 	cfg.EnableCompression = true
@@ -87,7 +87,7 @@ func (s *Slave) Run(config Config) error {
 	client.OnMessage(s)
 
 	if err := client.Connect(); err != nil {
-		s.logger.Info("failed to connect to master", zap.Error(err))
+		s.logger.Info("failed to connect to wgmaster", zap.Error(err))
 	}
 
 	for packet := range s.packets {
@@ -98,7 +98,7 @@ func (s *Slave) Run(config Config) error {
 		}
 
 		if err = client.Send(data); err != nil {
-			s.logger.Error("failed to send message to master", zap.Error(err))
+			s.logger.Error("failed to send message to wgmaster", zap.Error(err))
 		}
 	}
 
@@ -108,16 +108,16 @@ func (s *Slave) Run(config Config) error {
 func (s *Slave) OnConnect(client *centrifuge.Client, ev centrifuge.ConnectEvent) {
 	// nolint:godox
 	// todo: request sync?
-	s.logger.Info("connected to master")
+	s.logger.Info("connected to wgmaster")
 }
 func (s *Slave) OnDisconnect(client *centrifuge.Client, ev centrifuge.DisconnectEvent) {
-	s.logger.Info("disconnected from master")
+	s.logger.Info("disconnected from wgmaster")
 }
 func (s *Slave) OnError(client *centrifuge.Client, ev centrifuge.ErrorEvent) {
 	s.logger.Info("centerifuge error", zap.String("message", ev.Message))
 }
 func (s *Slave) OnMessage(client *centrifuge.Client, ev centrifuge.MessageEvent) {
-	s.logger.Info("message from master")
+	s.logger.Info("message from wgmaster")
 
 	var msg wgproto.WGPacket
 	if err := proto.Unmarshal(ev.Data, &msg); err != nil {
@@ -141,6 +141,6 @@ func (s *Slave) OnMessage(client *centrifuge.Client, ev centrifuge.MessageEvent)
 	*/
 	default:
 		s.logger.Info("unknown message type", zap.String("type", msg.PacketType.String()))
-		s.sendError(msg.UUID, "slave: not implemented")
+		s.sendError(msg.UUID, "wgslave: not implemented")
 	}
 }

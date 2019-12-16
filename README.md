@@ -10,7 +10,7 @@ wg servers via simple http(s) api (or embed wgadmin/master or wgadmin/slave pack
 # Master daemon
 
 ```shell script
-cd cmd/master
+cd wgmaster
 go build
 ```
 
@@ -40,7 +40,7 @@ Slave daemon runs on each wireguard node, connects to master with given login/pa
 and accepts commands for add/remove/sync wireguard peers. 
 
 ```shell script
-cd cmd/slave
+cd wgslave
 go build
 
 SAVE_TEMPLATE=/etc/wireguard/template.conf SAVE_PATH=/etc/wireguard/clients.conf \

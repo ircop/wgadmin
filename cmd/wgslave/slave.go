@@ -40,7 +40,7 @@ func main() {
 
 	sd, err := slave.NewSLave(ifname, logger)
 	if err != nil {
-		logger.Error("faield to initialize slave daemon", zap.String("ifname", ifname), zap.Error(err))
+		logger.Error("faield to initialize wgslave daemon", zap.String("ifname", ifname), zap.Error(err))
 		os.Exit(1)
 	}
 
@@ -60,7 +60,7 @@ func main() {
 		SkipTLSVerify:  skipTLSVerify,
 	}
 	if err = sd.Run(config); err != nil {
-		logger.Error("failed to run slave daemon", zap.String("remote", remote), zap.Error(err))
+		logger.Error("failed to run wgslave daemon", zap.String("remote", remote), zap.Error(err))
 		os.Exit(1)
 	}
 }

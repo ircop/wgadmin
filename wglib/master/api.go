@@ -20,7 +20,7 @@ var ErrPeerNodFound = errors.New("peer not found")
 var ErrTaskTimeout = errors.New("task timed out")
 var ErrWrongParams = errors.New("wrong input parameters")
 
-// Peers returns list of ip-addresses of connected slave peers
+// Peers returns list of ip-addresses of connected wgslave peers
 func (m *Master) Peers() []string {
 	peers := make([]string, 0)
 
@@ -143,7 +143,7 @@ func (m *Master) DelInterfacesPeer(peer string, keys []string) error {
 	}
 
 	if !resultPacket.Success {
-		return fmt.Errorf("DelInterfacesPeer [%s]: slave failed: %s", peer, resultPacket.Error)
+		return fmt.Errorf("DelInterfacesPeer [%s]: wgslave failed: %s", peer, resultPacket.Error)
 	}
 
 	return nil
@@ -215,7 +215,7 @@ func (m *Master) PutInterfacesPeer(peer string, interfaces []Interface, syncPack
 	}
 
 	if !resultPacket.Success {
-		return fmt.Errorf("PutInterfacesPeer [%s]: slave failed: %s", peer, resultPacket.Error)
+		return fmt.Errorf("PutInterfacesPeer [%s]: wgslave failed: %s", peer, resultPacket.Error)
 	}
 
 	return nil

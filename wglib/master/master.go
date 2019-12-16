@@ -26,7 +26,7 @@ type Master struct {
 }
 
 // NewMasterDaemon creates and returns new Master instance
-// logger: instance of zap.Logger. taskTimeout: timeout for waiting of slave tasks execution.
+// logger: instance of zap.Logger. taskTimeout: timeout for waiting of wgslave tasks execution.
 func NewMasterDaemon(logger *zap.Logger, taskTimout time.Duration) *Master {
 	return &Master{
 		logger:      logger,
