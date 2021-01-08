@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches:
+      - '*'
+      - '!master'
+  pull_request:
+
+env:
+  APP_ENV: test
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  ci_checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.13
+        id: go
+
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup git
+        env:
+          GOPRIVATE: "github.com/pnforge,github.com/ircop"
+          TOKEN: ${{ secrets.BUNDLE_GITHUB__COM }}
+        run: git config --global url."https://${TOKEN}@github.com".insteadOf "https://github.com"
+
+      - name: download deps
+        run: go mod download
+        env:
+          GOPRIVATE: "github.com/pnforge,github.com/ircop"
+
+      - name: lint
+        run: |
+          chmod +x scripts/*.sh
+          make quality.lint
+        env:
+          GOPRIVATE: "github.com/pnforge,github.com/ircop"
+
+      - name: test
+        run: make quality.tests
+
+      - name: build
+        run: make app.build

@@ -1,0 +1,55 @@
+# This is a basic workflow to help you get started with Actions
+
+name: manual-deploy
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on: deployment
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deployment:
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - run:   echo ::set-env name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")
+        shell: bash
+      - run:   echo ::set-env name=SHA::$(git rev-parse --short=6 ${{ github.sha }})
+        shell: bash
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_KEY }}
+          aws-region: eu-central-1
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      - name: docker build
+        run: docker build --build-arg BUNDLE_GITHUB__COM=${{ secrets.BUNDLE_GITHUB__COM }} -t ${{secrets.DOCKER_REPO_URL}}/$REPOSITORY_NAME:${{github.event.deployment.environment}} .
+      
+      - name: docker push
+        run: docker push ${{secrets.DOCKER_REPO_URL}}/$REPOSITORY_NAME:${{github.event.deployment.environment}}
+
+      - name: configure ssh
+        run: |
+          echo "${{secrets.RSA}}" > ~/.id_rsa
+          chmod 600 ~/.id_rsa
+      
+      - name: deploy app
+        run: ssh -oStrictHostKeyChecking=no -i ~/.id_rsa github@${{secrets.KUBEHOST}} "helm repo update && helm upgrade -i -n ${{github.event.deployment.environment}} $REPOSITORY_NAME pnlab/$REPOSITORY_NAME --set=image.tag=${{github.event.deployment.environment}},timestamp=$(date --iso-8601=seconds)-$SHA --timeout 300s"
+
+      - name: cleanup
+        if: always()
+        run: |
+          docker logout
+          rm -rf ~/.id_rsa
+          rm -rf ~/aws
