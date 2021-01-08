@@ -10,7 +10,7 @@ import (
 
 	"github.com/centrifugal/centrifuge"
 	"github.com/gogo/protobuf/proto"
-	wgproto "github.com/ircop/wgadmin/wglib/proto"
+	wgproto "github.com/pnforge/wgadmin/wglib/proto"
 	"go.uber.org/zap"
 )
 

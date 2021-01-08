@@ -42,8 +42,8 @@ func TestMain(m *testing.M) {
 		panic(err)
 	}
 
-	logCfg := zap.NewDevelopmentConfig()
-	logCfg.OutputPaths = []string{"memory://"}
+	logCfg := zap.NewProductionConfig()
+	logCfg.OutputPaths = []string{"stdout"}
 	dummyLogger, _ = logCfg.Build()
 
 	os.Exit(m.Run())

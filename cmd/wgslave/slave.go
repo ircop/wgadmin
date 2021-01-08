@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ircop/wgadmin/wglib/slave"
+	"github.com/pnforge/wgadmin/wglib/slave"
 	"go.uber.org/zap"
 )
 

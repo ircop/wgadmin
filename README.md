@@ -10,7 +10,7 @@ wg servers via simple http(s) api (or embed wgadmin/master or wgadmin/slave pack
 # Master daemon
 
 ```shell script
-go install github.com/ircop/wgadmin/cmd/wgmaster
+go install github.com/pnforge/wgadmin/cmd/wgmaster
 ```
 
 Master daemon starts https server on given addr/port, and accepts slaves connections on '/wg' endpoint, as well as API calls.
@@ -39,7 +39,7 @@ Slave daemon runs on each wireguard node, connects to master with given login/pa
 and accepts commands for add/remove/sync wireguard peers. 
 
 ```shell script
-go install github.com/ircop/wgadmin/cmd/wgslave
+go install github.com/pnforge/wgadmin/cmd/wgslave
 
 SAVE_TEMPLATE=/etc/wireguard/template.conf SAVE_PATH=/etc/wireguard/clients.conf \
   LOGIN=t1 PASSWORD=t2 \
@@ -155,7 +155,7 @@ $ curl -k -X POST https://localhost:4321/all/sync -d \
 
 # Using as package
 
-You can use this as a packages in your own software. Just import `github.com/ircop/wgadmin/wglib/slave` 
-or `github.com/ircop/wgadmin/wglib/master` in your code.
+You can use this as a packages in your own software. Just import `github.com/pnforge/wgadmin/wglib/slave` 
+or `github.com/pnforge/wgadmin/wglib/master` in your code.
 
 See example usage in cmd/master and cmd/slave

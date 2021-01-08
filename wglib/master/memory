@@ -1,6 +1,0 @@
-2019-12-12T21:51:22.425Z	INFO	master/processor.go:22	got client message	{"peer": "127.0.0.1", "id": "", "type": "PT_ERROR"}
-2019-12-12T21:51:22.426Z	INFO	master/processor.go:25	ignoring message with empty id
-2019-12-12T21:51:26.829Z	INFO	master/processor.go:22	got client message	{"peer": "127.0.0.1", "id": "", "type": "PT_ERROR"}
-2019-12-12T21:51:26.829Z	INFO	master/processor.go:25	ignoring message with empty id
-2019-12-12T21:51:36.334Z	INFO	master/processor.go:22	got client message	{"peer": "127.0.0.1", "id": "", "type": "PT_ERROR"}
-2019-12-12T21:51:36.334Z	INFO	master/processor.go:25	ignoring message with empty id

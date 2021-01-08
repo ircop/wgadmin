@@ -8,7 +8,7 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/google/uuid"
-	wgproto "github.com/ircop/wgadmin/wglib/proto"
+	wgproto "github.com/pnforge/wgadmin/wglib/proto"
 )
 
 type Interface struct {

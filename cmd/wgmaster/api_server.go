@@ -6,7 +6,7 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/ircop/wgadmin/wglib/master"
+	"github.com/pnforge/wgadmin/wglib/master"
 	"github.com/julienschmidt/httprouter"
 	"go.uber.org/zap"
 )

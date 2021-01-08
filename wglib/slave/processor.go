@@ -5,7 +5,7 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/golang/protobuf/ptypes/any"
-	wgproto "github.com/ircop/wgadmin/wglib/proto"
+	wgproto "github.com/pnforge/wgadmin/wglib/proto"
 	"go.uber.org/zap"
 	"golang.zx2c4.com/wireguard/wgctrl/wgtypes"
 )
